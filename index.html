@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Fundamentos VueJS</title>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar fixed-top navbar-dark bg-info">
+            <span class="navbar-brand mb-0 h1">Hello Vue</span>
+            <ul class="navbar-nav ml-auto">
+                <li class='nav-item active'>
+                    <a href="#" class="nav-link" @click="isActive = !isActive">
+                        Cart {{ cart.length }}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h1 class="mt-5">{{title}}</h1>
+            <product-component :premium="premiumUser"></product-component>
+        </div>
+        <div class="modal" :class="{ 'd-block': !isActive }" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span @click="isActive = !isActive" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/x-template" id="product-template">
+        <div class="row">
+            <div class="col md-6">
+                <img :src="img" class="w-100 img-fluid" >
+            </div>
+            <div class="col md-6">
+                <h2>{{name}}</h2>
+                <p>{{description}}</p>
+                <p>Unidades: {{stock}}</p>
+                <p v-if="stock > 10">Stock</p>
+                <p v-else-if="stock <= 10 && stock > 0">Quedan pocas unidades</p>
+                <p v-else="stock = 0">Agotado</p>
+                <p>Costo de Despacho: {{shipping}}</p>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                    </div>
+
+                    <select v-model="selectedFormat" class="custom-select" id="inputGroupSelect01">
+                      <option selected>Elige tu formato</option>
+                      <option v-for="format in formats":value="format">{{format.type}}</option>
+
+                    </select>
+                    <div class="container mt-3" text-align= "center">
+                    <button :disabled="!hasStock" @click="addToCart" class="btn btn-primary">Agregar al carro</button>
+                    <button class="btn btn-primary">Quitar del carro</button>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </script>
+    <script src="components/product.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>
